@@ -17,8 +17,6 @@ class FudeFrame():
         
         self.heightD=dsize
         self.widthD=int(dsize*int(self.width)/int(self.height))
-        print(self.widthD)
-        print(self.heightD)
         self.imgResize=cv2.resize(self.img, dsize=(self.widthD, self.heightD))
         self.imgRGB=cv2.cvtColor(self.imgResize, cv2.COLOR_BGR2RGB)
 
