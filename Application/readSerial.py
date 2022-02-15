@@ -1,22 +1,28 @@
+import string
 import serial
 from threading import Thread
 import math
 
-class readSerial(Thread):
-    def __init__(self):
+class getAngle(Thread):
+    def __init__(self, port:str):
         self.accX:float=0.0
         self.accY:float=0.0
         self.accZ:float=0.0
 
-    def loop(self):
+        self.ser = serial.Serial(port, 9600, timeout=None)
+        
+        #line=0.0 0.0 0.0 0.0 0.0 0.0
+
+
+    def run(self):
         try:
             while True:
-                self.EulerAngle(accX=self.accX, accY=self.accY, accZ=self.accZ)
+                line=self.ser.readline()
+                rowData=line.split()
+                self.EulerAngle(accX=rowData[0], accY=rowData[1], accZ=rowData[2])
         except:
             return
-    
-    def read(self):
-        print("noma")
+
 
     def EulerAngle(self, accX:float, accY:float, accZ:float)->list:
         angleX=math.atan(-accY/-accZ)
