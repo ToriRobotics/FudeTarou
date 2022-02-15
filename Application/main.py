@@ -11,7 +11,7 @@ class Application(tk.Frame):
     def __init__ (self, master=None):
         super().__init__(master)
         self.master.geometry("720x450")
-        self.master.title("FudeTasrou")
+        self.master.title("FudeTarou")
         self.master.resizable(width=False, height=False)
 
         self.createFrame()
