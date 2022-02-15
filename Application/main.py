@@ -26,7 +26,6 @@ class Application(tk.Frame):
     def createFrame(self):
         self.background=tk.Frame(self.master, width=720, height=450, bg="#C4C4C4")
         self.background.place(x=0, y=0)
-
     
     def showFrame(self):
         self.fudeFrame.show(dsize=450)
@@ -39,7 +38,7 @@ class Application(tk.Frame):
         #canvas内の画像の位置
         self.canvas.create_image(0, 0, image = self.imgTk, anchor="nw")
 
-        #self.master.after(100, self.showFrame)
+        self.master.after(100, self.showFrame)
 
 
 def main():
