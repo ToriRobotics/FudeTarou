@@ -18,7 +18,8 @@ class Application(tk.Frame):
 
         self.createFrame()
 
-        #self.thread=readSerial.getAngle(port="port")
+        self.thread=readSerial.getAngle()
+        self.thread.start()
         self.fudeFrame=makeFudeFrame.FudeFrame()
 
         self.showFrame()
@@ -28,7 +29,7 @@ class Application(tk.Frame):
         self.background.place(x=0, y=0)
     
     def showFrame(self):
-        self.fudeFrame.show(dsize=450)
+        self.fudeFrame.show(dsize=450, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
         self.imgPIL=PIL.Image.fromarray(self.fudeFrame.imgRGB)
         self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
 
