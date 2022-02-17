@@ -51,7 +51,7 @@ class Application(tk.Frame):
         self.stressimgTk=PIL.ImageTk.PhotoImage(self.stressimgPIL)
         self.stressCanvas.create_image(0, 40, image=self.stressimgTk, anchor="nw")
         
-        self.gripFrame.show(dsize=640)
+        self.gripFrame.show(dsize=640, grip=1023)
         self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
         self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
         self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
