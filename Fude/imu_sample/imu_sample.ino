@@ -41,18 +41,27 @@ void setup()
 
 void loop()
 {
-  Serial.println("--------------------------------------"); 
+  //Serial.println("--------------------------------------"); 
 
   //BMX055 加速度の読み取り
   BMX055_Accl();
-  Serial.print("Accl= ");
+  float phi = atan2(zAccl, xAccl);
+  float theta = atan2(yAccl, (sqrt(pow(xAccl, 2) + pow(zAccl, 2))));
+  Serial.print(phi*180.0/PI);
+  Serial.print(" ");
+  Serial.println(theta*180.0/PI);
+  /*
+  Serial.print("Accl: ");
   Serial.print(xAccl);
-  Serial.print(",");
+  Serial.print(" ");
   Serial.print(yAccl);
-  Serial.print(",");
+  Serial.print(" ");
   Serial.print(zAccl);
-  Serial.println(""); 
-  
+  Serial.println("");
+  */
+   
+
+  /*
   //BMX055 ジャイロの読み取り
   BMX055_Gyro();
   Serial.print("Gyro= ");
@@ -72,7 +81,7 @@ void loop()
   Serial.print(",");
   Serial.print(zMag);
   Serial.println(""); 
-  
+  */
   delay(100);
 }
 
