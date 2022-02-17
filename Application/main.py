@@ -8,6 +8,7 @@ import os
 import serial
 import readSerial
 import makeFudeFrame
+import viewStressFrame
 
 class Application(tk.Frame):
     def __init__ (self, master=None):
@@ -21,6 +22,7 @@ class Application(tk.Frame):
         self.thread=readSerial.getAngle()
         self.thread.start()
         self.fudeFrame=makeFudeFrame.FudeFrame()
+        self.stressFrame=viewStressFrame.StressFrame()
 
         self.showFrame()
 
@@ -42,6 +44,10 @@ class Application(tk.Frame):
         self.angleCanvas=tk.Canvas(self.master, width=640, height=360)
         self.angleCanvas.place(x=640, y=360)
 
+        self.stressFrame.show(dsize=450, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
+        self.imgPIL=PIL.Image.fromarray(self.stressFrame.imgRGB)
+        self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
+        self.stressCanvas.create_image(0, 0, image=self.imgTk)
         '''
         self.canvas = tk.Canvas(self.master, width=self.fudeFrame.widthD, height=self.fudeFrame.heightD)
         #canvasの位置
