@@ -1,5 +1,5 @@
 
-const int FORCE_PIN = A0;
+const int FORCE_PIN = A6;
 
 void setup(){
     Serial.begin( 9600 );
