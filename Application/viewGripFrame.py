@@ -1,7 +1,6 @@
 import cv2
 from PIL import Image, ImageTk
-from cv2 import cvtColor
-import numpy as np
+
 
 class GripFrame():
     cap:cv2
