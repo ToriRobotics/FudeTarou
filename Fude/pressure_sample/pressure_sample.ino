@@ -1,5 +1,5 @@
 
-const int FORCE_PIN = A6;
+const int PRESSURE_PIN = A6;
 
 void setup(){
     Serial.begin( 9600 );
@@ -9,7 +9,7 @@ void loop(){
     int value;
     float volt;
 
-    value = analogRead( FORCE_PIN );
+    value = analogRead( PRESSURE_PIN );
 
     volt = value * 5.0 / 1023.0;
 
