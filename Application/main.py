@@ -9,6 +9,7 @@ import serial
 import readSerial
 #import makeFudeFrame
 import viewStressFrame
+import viewGripFrame
 
 class Application(tk.Frame):
     def __init__ (self, master=None):
@@ -23,6 +24,7 @@ class Application(tk.Frame):
         self.thread.start()
         #self.fudeFrame=makeFudeFrame.FudeFrame()
         self.stressFrame=viewStressFrame.StressFrame()
+        self.gripFrame=viewGripFrame.GripFrame()
 
         self.showFrame()
 
@@ -45,9 +47,15 @@ class Application(tk.Frame):
         self.angleCanvas.place(x=640, y=360)
 
         self.stressFrame.show(dsize=640, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
-        self.imgPIL=PIL.Image.fromarray(self.stressFrame.imgRGB)
-        self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
-        self.stressCanvas.create_image(0, 40, image=self.imgTk, anchor="nw")
+        self.stressimgPIL=PIL.Image.fromarray(self.stressFrame.imgRGB)
+        self.stressimgTk=PIL.ImageTk.PhotoImage(self.stressimgPIL)
+        self.stressCanvas.create_image(0, 40, image=self.stressimgTk, anchor="nw")
+        
+        self.gripFrame.show(dsize=640)
+        self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
+        self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
+        self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
+        
         '''
         self.canvas = tk.Canvas(self.master, width=self.fudeFrame.widthD, height=self.fudeFrame.heightD)
         #canvasの位置
