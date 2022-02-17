@@ -7,7 +7,8 @@ import datetime
 import os
 import serial
 import readSerial
-import makeFudeFrame
+#import makeFudeFrame
+import viewStressFrame
 
 class Application(tk.Frame):
     def __init__ (self, master=None):
@@ -20,7 +21,8 @@ class Application(tk.Frame):
 
         self.thread=readSerial.getAngle()
         self.thread.start()
-        self.fudeFrame=makeFudeFrame.FudeFrame()
+        #self.fudeFrame=makeFudeFrame.FudeFrame()
+        self.stressFrame=viewStressFrame.StressFrame()
 
         self.showFrame()
 
@@ -29,9 +31,9 @@ class Application(tk.Frame):
         self.background.place(x=0, y=0)
     
     def showFrame(self):
-        self.fudeFrame.show(dsize=450, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
-        self.imgPIL=PIL.Image.fromarray(self.fudeFrame.imgRGB)
-        self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
+        #self.fudeFrame.show(dsize=450, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
+        #self.imgPIL=PIL.Image.fromarray(self.fudeFrame.imgRGB)
+        #self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
         
         self.stressCanvas=tk.Canvas(self.master, width=640, height=720)
         self.stressCanvas.place(x=0, y=0)
@@ -42,6 +44,10 @@ class Application(tk.Frame):
         self.angleCanvas=tk.Canvas(self.master, width=640, height=360)
         self.angleCanvas.place(x=640, y=360)
 
+        self.stressFrame.show(dsize=640, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
+        self.imgPIL=PIL.Image.fromarray(self.stressFrame.imgRGB)
+        self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
+        self.stressCanvas.create_image(0, 40, image=self.imgTk, anchor="nw")
         '''
         self.canvas = tk.Canvas(self.master, width=self.fudeFrame.widthD, height=self.fudeFrame.heightD)
         #canvasの位置
