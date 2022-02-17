@@ -6,7 +6,7 @@ import os
 
 class getAngle(Thread):
     def __init__(self):
-        super().__init__()
+        super().__init__(daemon=True)
         self.accX:float=0.0
         self.accY:float=0.0
         self.accZ:float=0.0
@@ -21,9 +21,11 @@ class getAngle(Thread):
                 self.ser.port = "/dev/"+file
                 self.ser.open()
         '''
-
-        self.ser.port = "/dev/cu.usbserial-14330"
-        self.ser.open()
+        try:
+            self.ser.port = "/dev/cu.usbserial-14330"
+            self.ser.open()
+        except:
+            return
         #line=0.0 0.0 0.0 0.0 0.0 0.0
 
 
@@ -33,11 +35,12 @@ class getAngle(Thread):
                 line=self.ser.readline()
                 self.rawData=line.split()
                 self.rawData = [int(i) for i in self.rawData]
-                #print(rawData)
+                #print(self.rawData)
                 #self.EulerAngle(accX=rowData[0], accY=rowData[1], accZ=rowData[2])
         except Exception as e:
             import traceback
             print(traceback.format_exc())
+            self.rawData=[0, 0, 0]
             return
 
 
