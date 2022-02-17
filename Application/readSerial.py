@@ -32,11 +32,14 @@ class getAngle(Thread):
     def run(self):
         try:
             while True:
-                line=self.ser.readline()
-                self.rawData=line.split()
-                self.rawData = [int(i) for i in self.rawData]
-                #print(self.rawData)
-                #self.EulerAngle(accX=rowData[0], accY=rowData[1], accZ=rowData[2])
+                try:
+                    line=self.ser.readline()
+                    self.rawData=line.split()
+                    self.rawData = [int(i) for i in self.rawData]
+                    #print(self.rawData)
+                    #self.EulerAngle(accX=rowData[0], accY=rowData[1], accZ=rowData[2])
+                except:
+                    return
         except Exception as e:
             import traceback
             print(traceback.format_exc())
