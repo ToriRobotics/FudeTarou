@@ -10,6 +10,7 @@ import readSerial
 #import makeFudeFrame
 import viewStressFrame
 import viewGripFrame
+import viewAngleFrame
 
 class Application(tk.Frame):
     def __init__ (self, master=None):
@@ -25,6 +26,7 @@ class Application(tk.Frame):
         #self.fudeFrame=makeFudeFrame.FudeFrame()
         self.stressFrame=viewStressFrame.StressFrame()
         self.gripFrame=viewGripFrame.GripFrame()
+        self.angleFrame=viewAngleFrame.AngleFrame()
 
         self.showFrame()
 
@@ -55,6 +57,11 @@ class Application(tk.Frame):
         self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
         self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
         self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
+
+        self.angleFrame.show(dsize=640, angle=0)
+        self.angleimgPIL=PIL.Image.fromarray(self.angleFrame.imgRGB)
+        self.angleimgTk=PIL.ImageTk.PhotoImage(self.angleimgPIL)
+        self.angleCanvas.create_image(0, 0, image=self.angleimgTk, anchor="nw")
         
         '''
         self.canvas = tk.Canvas(self.master, width=self.fudeFrame.widthD, height=self.fudeFrame.heightD)
