@@ -55,7 +55,7 @@ class Application(tk.Frame):
         self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
         self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
 
-        self.angleFrame.show(dsize=640, angle=0)
+        self.angleFrame.show(dsize=640, angle=self.thread.rawData[1])
         self.angleimgPIL=PIL.Image.fromarray(self.angleFrame.imgRGB)
         self.angleimgTk=PIL.ImageTk.PhotoImage(self.angleimgPIL)
         self.angleCanvas.create_image(0, 0, image=self.angleimgTk, anchor="nw")
