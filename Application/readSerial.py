@@ -4,6 +4,8 @@ from threading import Thread
 import math
 import os
 
+
+#musi,angle,stress,shearX,shearY,grip
 class getAngle(Thread):
     def __init__(self):
         super().__init__(daemon=True)
@@ -11,7 +13,8 @@ class getAngle(Thread):
         self.accY:float=0.0
         self.accZ:float=0.0
 
-        self.rawData = [0, 0, 0]
+        #musi,angle,stress,shearX,shearY,grip
+        self.rawData:list[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
         self.ser = serial.Serial()
         self.ser.baudrate = 9600
@@ -22,23 +25,31 @@ class getAngle(Thread):
                 self.ser.open()
         '''
         try:
-            self.ser.port = "/dev/cu.usbserial-14330"
+            #self.ser.port = "/dev/cu.usbserial-14330"
+            self.ser.port = "/dev/cu.usbserial-14320"
+            #self.ser.port = "/dev/cu.usbserial-143120"
             self.ser.open()
         except:
             return
         #line=0.0 0.0 0.0 0.0 0.0 0.0
 
 
+
+
     def run(self):
         try:
             while True:
                 try:
-                    line=self.ser.readline()
-                    self.rawData=line.split()
-                    self.rawData = [int(i) for i in self.rawData]
+                    #musi,angle,stress,shearX,shearY,grip
+                    line=self.ser.readline().decode('utf-8')
+                    base=line.split(" ")
+                    self.rawData = [float(i) for i in base]
                     #print(self.rawData)
                     #self.EulerAngle(accX=rowData[0], accY=rowData[1], accZ=rowData[2])
+                    #print(self.rawData)
                 except:
+                    import traceback
+                    print(traceback.format_exc())
                     return
         except Exception as e:
             import traceback

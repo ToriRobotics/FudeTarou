@@ -7,7 +7,7 @@ class GripFrame():
     def __init__(self):
         print("GripFrame")
 
-    def show(self, dsize:int, grip:int):
+    def show(self, dsize:int, grip:float):
         self.img = cv2.imread("img/gripLow.jpg")
         self.height, self.width=self.img.shape[:2]
 
@@ -18,7 +18,8 @@ class GripFrame():
 
         #sensor0-1023
         #color0-155
-        grip=min(int(grip/6*1.5), 155)
+        grip=min(int(grip/6*2), 155)
+        #print(grip)
         cv2.rectangle(self.img,
               pt1=(150, 139),
               pt2=(150+widthH, 139+highH),
