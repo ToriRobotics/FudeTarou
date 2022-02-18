@@ -35,10 +35,6 @@ class Application(tk.Frame):
         self.background.place(x=0, y=0)
     
     def showFrame(self):
-        #self.fudeFrame.show(dsize=450, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
-        #self.imgPIL=PIL.Image.fromarray(self.fudeFrame.imgRGB)
-        #self.imgTk=PIL.ImageTk.PhotoImage(self.imgPIL)
-        
         self.stressCanvas=tk.Canvas(self.master, width=640, height=720)
         self.stressCanvas.place(x=0, y=0)
         
@@ -48,12 +44,13 @@ class Application(tk.Frame):
         self.angleCanvas=tk.Canvas(self.master, width=640, height=360)
         self.angleCanvas.place(x=640, y=360)
 
-        self.stressFrame.show(dsize=640, stress=self.thread.rawData[0], shearX=self.thread.rawData[1], shearY=self.thread.rawData[2])
+        self.stressFrame.show(dsize=640, stress=self.thread.rawData[2], shearX=self.thread.rawData[3], shearY=self.thread.rawData[4])
+        #self.stressFrame.show(dsize=640, stress=, shearX=0, shearY=0)
         self.stressimgPIL=PIL.Image.fromarray(self.stressFrame.imgRGB)
         self.stressimgTk=PIL.ImageTk.PhotoImage(self.stressimgPIL)
         self.stressCanvas.create_image(0, 40, image=self.stressimgTk, anchor="nw")
         
-        self.gripFrame.show(dsize=640, grip=1023)
+        self.gripFrame.show(dsize=640, grip=self.thread.rawData[5])
         self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
         self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
         self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
