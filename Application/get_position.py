@@ -64,9 +64,9 @@ class getPosition(Thread):
         min_idx = np.argmin(data)
 
         point = min_idx + 1
-        if variance < 250:
+        if variance < 500:
             point = 5
-        if mean > 150:
+        if mean > 200:
             point = 0
 
         print(point)
