@@ -42,6 +42,11 @@ void loop(){
     float Rx_5=(5/value5-1)*R_5+Offset_5;
     float Rx_7=(5/value7-1)*R_7+Offset_7;
 
+    if(Rx_1 > 1000) Rx_1 = 0;
+    if(Rx_3 > 1000) Rx_3 = 0;
+    if(Rx_5 > 1000) Rx_5 = 0;
+    if(Rx_7 > 1000) Rx_7 = 0;
+
     Serial.print(Rx_1);
     Serial.print(" ");
     Serial.print(Rx_3);
