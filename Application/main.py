@@ -85,14 +85,24 @@ class Application(tk.Frame):
             self.subWin.resizable(width=False, height=False)
             self.subWin.geometry("600x600")
             self.subWin.title("FudeTracking")
+            
+            self.trackingCanvas=tk.Canvas(self.subWin, width=600, height=600)
+            self.trackingCanvas.place(x=0, y=30)
 
-            self.trackingCanvas=tk.Canvas(self.master, width=600, height=600)
-            self.stressCanvas.place(x=0, y=30)
+            self.trackingFrame.show(dsize=600, position=5)
+            self.trackingimgPIL=PIL.Image.fromarray(self.trackingFrame.imgRGB)
+            self.trackingimgTk=PIL.ImageTk.PhotoImage(self.trackingimgPIL)
+            self.trackingCanvas.create_image(0, 0, image=self.trackingimgTk, anchor="nw")
 
-            self.gripFrame.show(dsize=640, grip=self.thread.rawData[5])
-            self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
-            self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
-            self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
+            self.subButtonFrame=tk.Frame(self.subWin, width=600, height=30, bg="#262626")
+            self.subButtonFrame.place(x=0, y=0)
+
+            subButton_endApp=tk.Button(self.subButtonFrame, text="exit", width=3, command=self.exitSubApp)
+            subButton_endApp.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
+
+    def exitSubApp(self):
+        self.subWin.destroy()
+
 
 
 def main():

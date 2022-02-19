@@ -5,15 +5,28 @@ int PIN_5=A5;
 int PIN_6=A6;
 int PIN_7=A7;
 
+/*
 float R_1=333.3;
 float R_3=65.7;
 float R_5=58.4;
 float R_7=333.3;
 
 float Offset_1=-23.3;
-float Offset_3=-26.31;
+float Offset_3=-56.31;
 float Offset_5=-58.4;
 float Offset_7=-6.66;
+*/
+
+float R_1=416.6;
+float R_3=76.9;
+float R_5=120.1;
+float R_7=500;
+
+float Offset_1=-212.5;
+float Offset_3=-161.5;
+float Offset_5=-300.8;
+float Offset_7=-220;
+
 
 void setup(){
     Serial.begin( 9600 );
