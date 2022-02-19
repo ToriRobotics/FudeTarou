@@ -12,6 +12,7 @@ import readSerial
 import viewStressFrame
 import viewGripFrame
 import viewAngleFrame
+import viewTrackingFrame
 
 class Application(tk.Frame):
     def __init__ (self, master=None):
@@ -28,9 +29,11 @@ class Application(tk.Frame):
         self.stressFrame=viewStressFrame.StressFrame()
         self.gripFrame=viewGripFrame.GripFrame()
         self.angleFrame=viewAngleFrame.AngleFrame()
+        self.trackingFrame=viewTrackingFrame.TrackingFrame()
 
         self.showFrame()
         self.createWidget()
+        self.subWin=None
 
     def createFrame(self):
         #self.background=tk.Frame(self.master, width=1280, height=720, bg="#C4C4C4")
@@ -40,7 +43,7 @@ class Application(tk.Frame):
         self.buttonFrame.place(x=0, y=0)
     
     def createWidget(self):
-        button_FudeTracking=tk.Button(self.buttonFrame, text="tracking", width=3)
+        button_FudeTracking=tk.Button(self.buttonFrame, text="tracking", width=3, command=self.setupSubWindow)
         button_FudeTracking.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
         button_endApp=tk.Button(self.buttonFrame, text="exit", width=3, command=self.exitApp)
         button_endApp.grid(row=0, column=1, padx=0, pady=0, sticky=tk.E)
@@ -75,6 +78,22 @@ class Application(tk.Frame):
 
     def exitApp(self):
         self.master.destroy()
+
+    def setupSubWindow(self):
+        if self.subWin == None or not self.subWin.winfo_exists():
+            self.subWin = tk.Toplevel()
+            self.subWin.resizable(width=False, height=False)
+            self.subWin.geometry("600x600")
+            self.subWin.title("FudeTracking")
+
+            self.trackingCanvas=tk.Canvas(self.master, width=600, height=600)
+            self.stressCanvas.place(x=0, y=30)
+
+            self.gripFrame.show(dsize=640, grip=self.thread.rawData[5])
+            self.gripimgPIL=PIL.Image.fromarray(self.gripFrame.imgRGB)
+            self.gripimgTk=PIL.ImageTk.PhotoImage(self.gripimgPIL)
+            self.gripCanvas.create_image(0, 0, image=self.gripimgTk, anchor="nw")
+
 
 def main():
     root=tk.Tk()
