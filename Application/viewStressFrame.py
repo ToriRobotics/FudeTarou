@@ -18,7 +18,7 @@ class StressFrame():
 
          #stress 0->255
         cv2.circle(self.img, (int(self.width/2), int(self.height/2)), 3, (0,0,0), thickness=-1)
-        stress=min(stress*3,235)
+        stress=min(stress*6,235)
         shearX=min(shearX*3,640)
         shearY=min(shearY*3,640)
         cv2.circle(self.img, (int(self.width/2 + shearX), int(self.height/2 - shearY)), 15, (235 -stress, 235 - stress, 235), thickness=-1)

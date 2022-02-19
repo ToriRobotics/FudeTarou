@@ -25,8 +25,8 @@ class getAngle(Thread):
                 self.ser.open()
         '''
         try:
-            #self.ser.port = "/dev/cu.usbserial-14330"
-            self.ser.port = "/dev/ttyUSB0"
+            self.ser.port = "/dev/cu.usbserial-14230"
+            #self.ser.port = "/dev/ttyUSB0"
             #self.ser.port = "/dev/cu.usbserial-143120"
             self.ser.open()
         except:
