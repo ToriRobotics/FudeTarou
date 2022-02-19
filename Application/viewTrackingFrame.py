@@ -13,7 +13,7 @@ class TrackingFrame():
         widthD=dsize
         heightD=int(dsize*int(self.height)/int(self.width))
         
-
+        #print(position)
         #self.heightD=dsize
         #self.widthD=int(dsize*int(self.width)/int(self.height))
 

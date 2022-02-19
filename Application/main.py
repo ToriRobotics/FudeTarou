@@ -8,6 +8,7 @@ import os
 from numpy import pad
 import serial
 import readSerial
+import get_position
 #import makeFudeFrame
 import viewStressFrame
 import viewGripFrame
@@ -25,6 +26,8 @@ class Application(tk.Frame):
 
         self.thread=readSerial.getAngle()
         self.thread.start()
+        self.thread2=get_position.getPosition()
+        self.thread2.start()
         #self.fudeFrame=makeFudeFrame.FudeFrame()
         self.stressFrame=viewStressFrame.StressFrame()
         self.gripFrame=viewGripFrame.GripFrame()
@@ -34,6 +37,9 @@ class Application(tk.Frame):
         self.showFrame()
         self.createWidget()
         self.subWin=None
+        #self.showSubWindow()
+
+        self.point = 0
 
     def createFrame(self):
         #self.background=tk.Frame(self.master, width=1280, height=720, bg="#C4C4C4")
@@ -74,6 +80,7 @@ class Application(tk.Frame):
         self.angleimgTk=PIL.ImageTk.PhotoImage(self.angleimgPIL)
         self.angleCanvas.create_image(0, 0, image=self.angleimgTk, anchor="nw")
 
+        self.point = self.thread2.point
         self.master.after(100, self.showFrame)
 
     def exitApp(self):
@@ -85,20 +92,20 @@ class Application(tk.Frame):
             self.subWin.resizable(width=False, height=False)
             self.subWin.geometry("600x600")
             self.subWin.title("FudeTracking")
-            
             self.trackingCanvas=tk.Canvas(self.subWin, width=600, height=600)
             self.trackingCanvas.place(x=0, y=30)
+        self.trackingFrame.show(dsize=600, position=self.thread2.point)
+        self.trackingimgPIL=PIL.Image.fromarray(self.trackingFrame.imgRGB)
+        self.trackingimgTk=PIL.ImageTk.PhotoImage(self.trackingimgPIL)
+        self.trackingCanvas.create_image(0, 0, image=self.trackingimgTk, anchor="nw")
 
-            self.trackingFrame.show(dsize=600, position=5)
-            self.trackingimgPIL=PIL.Image.fromarray(self.trackingFrame.imgRGB)
-            self.trackingimgTk=PIL.ImageTk.PhotoImage(self.trackingimgPIL)
-            self.trackingCanvas.create_image(0, 0, image=self.trackingimgTk, anchor="nw")
+        self.subButtonFrame=tk.Frame(self.subWin, width=600, height=30, bg="#262626")
+        self.subButtonFrame.place(x=0, y=0)
 
-            self.subButtonFrame=tk.Frame(self.subWin, width=600, height=30, bg="#262626")
-            self.subButtonFrame.place(x=0, y=0)
+        subButton_endApp=tk.Button(self.subButtonFrame, text="exit", width=3, command=self.exitSubApp)
+        subButton_endApp.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
 
-            subButton_endApp=tk.Button(self.subButtonFrame, text="exit", width=3, command=self.exitSubApp)
-            subButton_endApp.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
+        self.master.after(100, self.setupSubWindow)
 
     def exitSubApp(self):
         self.subWin.destroy()

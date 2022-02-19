@@ -25,7 +25,8 @@ class getPosition(Thread):
         '''
         try:
             #self.ser.port = "/dev/cu.usbserial-14330"
-            self.ser.port = "/dev/ttyUSB0"
+            #self.ser.port = "/dev/ttyUSB0"
+            self.ser.port = "/dev/cu.usbserial-14240"
             #self.ser.port = "/dev/cu.usbserial-143120"
             self.ser.open()
         except:
@@ -71,7 +72,7 @@ class getPosition(Thread):
         if mean > 200:
             point = 0
 
-        print(point)
+        #print(point)
         return point
 
 if __name__ == "__main__":
