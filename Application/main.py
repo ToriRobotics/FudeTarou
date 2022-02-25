@@ -14,8 +14,14 @@ import viewStressFrame
 import viewGripFrame
 import viewAngleFrame
 import viewTrackingFrame
+import record
+import datetime
 
 class Application(tk.Frame):
+
+    logdata:list[str]=[]
+    logFlag:bool
+
     def __init__ (self, master=None):
         super().__init__(master)
         self.master.geometry("1280x720")
@@ -34,10 +40,19 @@ class Application(tk.Frame):
         self.angleFrame=viewAngleFrame.AngleFrame()
         self.trackingFrame=viewTrackingFrame.TrackingFrame()
 
+        recodTime=datetime.datetime.now()
+        self.recordData=record.RecordData(str(recodTime.strftime("%Y,%m,%d,%H,%M")))
+        self.recordData.makeFile()
+        self.recordData.openFile()
+        self.recordData.makeHeader()
+
+        self.logFlag = False
+
         self.showFrame()
         self.createWidget()
         self.subWin=None
         #self.showSubWindow()
+        self.log()
 
         self.point = 0
 
@@ -83,8 +98,54 @@ class Application(tk.Frame):
         self.point = self.thread2.point
         self.master.after(100, self.showFrame)
 
+    def log(self):
+        try:
+            self.logdata.clear()
+            #showdata["stress","shearx", "sheary", "grip", "angle"]
+            self.logdata.append(str(self.stressFrame.stress))
+            self.logdata.append(str(self.stressFrame.shearX))
+            self.logdata.append(str(self.stressFrame.shearY))
+            self.logdata.append(str(self.gripFrame.grip))
+            self.logdata.append(str(self.thread.rawData[1]))
+            #rawdata["stress","shearx", "sheary", "grip", "angle"]
+            self.logdata.append(str(self.thread.rawData[2]))
+            self.logdata.append(str(self.thread.rawData[3]))
+            self.logdata.append(str(self.thread.rawData[4]))
+            self.logdata.append(str(self.thread.rawData[5]))
+            self.logdata.append(str(self.thread.rawData[1]))
+        except:
+            self.logdata.clear()
+            #showdata["stress","shearx", "sheary", "grip", "angle"]
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            #rawdata["stress","shearx", "sheary", "grip", "angle"]
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+            self.logdata.append(str(0))
+        if self.logFlag == True:
+            self.recordData.addData(self.logdata)
+
+        print(self.logFlag)
+        self.master.after(100, self.log)
+    
+    def keyEvent(self, e):
+        key = e.keysym
+        if key == "d":
+            self.logFlag = True
+
+        if key == "e":
+            self.logFlag = False
+            self.recordData.closeFile()
+    
+
     def exitApp(self):
         self.master.destroy()
+        self.recordData.closeFile()
 
     def setupSubWindow(self):
         if self.subWin == None or not self.subWin.winfo_exists():
@@ -115,6 +176,7 @@ class Application(tk.Frame):
 def main():
     root=tk.Tk()
     app=Application(master = root)
+    root.bind("<KeyPress>", app.keyEvent)
     app.mainloop()
 
 if __name__=="__main__":

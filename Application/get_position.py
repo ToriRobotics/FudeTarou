@@ -66,13 +66,12 @@ class getPosition(Thread):
 
 
         point = int(min_idx + 1)
-        if variance < 500:
-
+        if variance < 300:
             point = 5
-        if mean > 200:
+        if mean > 120:
             point = 0
 
-        #print(point)
+        #print(variance)
         return point
 
 if __name__ == "__main__":

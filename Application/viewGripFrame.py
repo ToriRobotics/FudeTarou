@@ -18,12 +18,12 @@ class GripFrame():
 
         #sensor0-1023
         #color0-155
-        grip=min(int(grip/6*2), 155)
+        self.grip=min(int(grip/6*2), 155)
         #print(grip)
         cv2.rectangle(self.img,
               pt1=(150, 139),
               pt2=(150+widthH, 139+highH),
-              color=(100, 100, 100+grip),
+              color=(100, 100, 100+self.grip),
               thickness=-1,  
               )
         #self.heightD=dsize
