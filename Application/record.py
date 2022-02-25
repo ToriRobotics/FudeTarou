@@ -4,7 +4,7 @@ import os
 import datetime
 
 class RecordData():
-    header: list[str]=["time", "stress", "shearX", "shearY", "grip", "angle", 
+    header: list=["time", "stress", "shearX", "shearY", "grip", "angle", 
                         "rawStress", "rawShearX", "rawShearY", "rawGrip", "rawAngle"]
 
     def __init__(self, filename: str):
@@ -22,11 +22,11 @@ class RecordData():
     def makeHeader(self):
         self.writer.writerow(self.header)
     
-    def addData(self, data:list[str]):
+    def addData(self, data:list):
         basetime=datetime.datetime.now()
         time=str(basetime.strftime("%m:%d:%H:%M:%S")) + ":" + str(basetime.microsecond)
 
-        loglist:list[str]=[]
+        loglist:list=[]
         loglist.append(time)
 
         for i in data:

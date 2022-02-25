@@ -19,7 +19,7 @@ import datetime
 
 class Application(tk.Frame):
 
-    logdata:list[str]=[]
+    logdata:list=[]
     logFlag:bool
 
     def __init__ (self, master=None):
@@ -41,7 +41,7 @@ class Application(tk.Frame):
         self.trackingFrame=viewTrackingFrame.TrackingFrame()
 
         recodTime=datetime.datetime.now()
-        self.recordData=record.RecordData(str(recodTime.strftime("%Y,%m,%d,%H,%M")))
+        self.recordData=record.RecordData(str(recodTime.strftime("%Y_%m_%d_%H_%M")))
         self.recordData.makeFile()
         self.recordData.openFile()
         self.recordData.makeHeader()
