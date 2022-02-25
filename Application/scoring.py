@@ -1,18 +1,6 @@
-import pandas as pd
 import numpy as np
 from scipy import signal
-
-class CSVData():
-
-    def __init__(self, csvPath:str):
-
-        self.start_point:int = 0
-        self.end_point:int = -1
-        self.df = pd.read_csv(csvPath, encoding="SHIFT_JIS", usecols=[1,5])
-
-    def get_data(self, key:str):
-        range_idx = slice(self.start_point, self.end_point)
-        return np.array(self.df[key].tolist())[range_idx]
+from csv_data import CSVData
 
 class Scoring():
     def __init__(self, test_path, ans_path):
@@ -48,7 +36,7 @@ class Scoring():
 
 
 if __name__ == "__main__":
-    score = Scoring("log/2022_02_25_14_18.csv", "log/2022_02_25_14_19.csv")
+    score = Scoring("log/2022_02_25_14_59.csv", "log/2022_02_25_15_00.csv")
     print(score.calculate())
 
 
