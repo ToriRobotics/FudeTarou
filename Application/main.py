@@ -18,7 +18,9 @@ import viewAngleFrame
 import viewTrackingFrame
 import record
 import datetime
-
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import makeGraph
 class Application(tk.Frame):
 
     logdata:list=[]
@@ -42,8 +44,8 @@ class Application(tk.Frame):
         self.angleFrame=viewAngleFrame.AngleFrame()
         self.trackingFrame=viewTrackingFrame.TrackingFrame()
 
-        recodTime=datetime.datetime.now()
-        self.recordData=record.RecordData(str(recodTime.strftime("%Y_%m_%d_%H_%M")))
+        self.recodTime=datetime.datetime.now()
+        self.recordData=record.RecordData(str(self.recodTime.strftime("%Y_%m_%d_%H_%M")))
         self.recordData.makeFile()
         self.recordData.openFile()
         self.recordData.makeHeader()
@@ -190,8 +192,14 @@ class Application(tk.Frame):
             self.scoreFrame.place(x=0,y=30)
             score = tk.Label(self.scoreFrame, text="SCORE", font=("times", 60))
             score.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
-
-
+            #self.fig = plt.figure()
+            
+            self.fig=makeGraph.make_graph("log/2022_02_25_14_59.csv", "log/2022_02_25_15_00.csv")
+            filename = "log/"+str(self.recodTime.strftime("%Y_%m_%d_%H_%M"))+".csv"
+            print(filename)
+            self.fig=makeGraph.make_graph(filename, "log/2022_02_25_15_00.csv")
+            canvas = FigureCanvasTkAgg(self.fig, self.scoreWin)
+            self.tmp = canvas.get_tk_widget().place(x=0,y=100)
 
             
     def closeScore(self):
