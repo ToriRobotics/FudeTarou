@@ -1,5 +1,7 @@
+from distutils import command
 import tkinter as tk
 from tkinter.constants import LEFT, NUMERIC
+from turtle import color, width
 import cv2
 import PIL.Image, PIL.ImageTk
 from PIL import Image, ImageTk, ImageOps
@@ -51,6 +53,7 @@ class Application(tk.Frame):
         self.showFrame()
         self.createWidget()
         self.subWin=None
+        self.scoreWin=None
         #self.showSubWindow()
         self.log()
 
@@ -66,8 +69,12 @@ class Application(tk.Frame):
     def createWidget(self):
         button_FudeTracking=tk.Button(self.buttonFrame, text="tracking", width=3, command=self.setupSubWindow)
         button_FudeTracking.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
+        
+        button_Score=tk.Button(self.buttonFrame, text="score", width=3, command=self.setupScoreWindow)
+        button_Score.grid(row=0, column=1, padx=0, pady=0, sticky=tk.E)
+
         button_endApp=tk.Button(self.buttonFrame, text="exit", width=3, command=self.exitApp)
-        button_endApp.grid(row=0, column=1, padx=0, pady=0, sticky=tk.E)
+        button_endApp.grid(row=0, column=2, padx=0, pady=0, sticky=tk.E)
 
     def showFrame(self):
         self.stressCanvas=tk.Canvas(self.master, width=640, height=720)
@@ -130,7 +137,6 @@ class Application(tk.Frame):
         if self.logFlag == True:
             self.recordData.addData(self.logdata)
 
-        print(self.logFlag)
         self.master.after(100, self.log)
     
     def keyEvent(self, e):
@@ -168,6 +174,29 @@ class Application(tk.Frame):
 
         self.master.after(100, self.setupSubWindow)
 
+    def setupScoreWindow(self):
+        if self.scoreWin == None or not self.scoreWin.winfo_exists():
+            self.scoreWin=tk.Toplevel()
+            self.scoreWin.resizable(width=False, height=False)
+            self.scoreWin.geometry("600x600")
+            self.scoreWin.title("score")
+
+            self.scoreButtonFrame=tk.Frame(self.scoreWin, width=600, height=30, bg="#262626")
+            self.scoreButtonFrame.place(x=0, y=0)
+            CloseButton=tk.Button(self.scoreButtonFrame, text="close", width=3, command=self.closeScore)
+            CloseButton.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
+
+            self.scoreFrame=tk.Frame(self.scoreWin, width=600, height=150, bg="#ffffff")
+            self.scoreFrame.place(x=0,y=30)
+            score = tk.Label(self.scoreFrame, text="SCORE", font=("times", 60))
+            score.grid(row=0, column=0, padx=0, pady=0, sticky=tk.E)
+
+
+
+            
+    def closeScore(self):
+        self.scoreWin.destroy()
+
     def exitSubApp(self):
         self.subWin.destroy()
 
@@ -177,6 +206,7 @@ def main():
     root=tk.Tk()
     app=Application(master = root)
     root.bind("<KeyPress>", app.keyEvent)
+    app.scoreWin = None
     app.mainloop()
 
 if __name__=="__main__":
