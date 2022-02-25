@@ -20,6 +20,7 @@ import datetime
 class Application(tk.Frame):
 
     logdata:list[str]=[]
+    logFlag:bool
 
     def __init__ (self, master=None):
         super().__init__(master)
@@ -44,6 +45,8 @@ class Application(tk.Frame):
         self.recordData.makeFile()
         self.recordData.openFile()
         self.recordData.makeHeader()
+
+        self.logFlag = False
 
         self.showFrame()
         self.createWidget()
@@ -124,9 +127,21 @@ class Application(tk.Frame):
             self.logdata.append(str(0))
             self.logdata.append(str(0))
             self.logdata.append(str(0))
+        if self.logFlag == True:
+            self.recordData.addData(self.logdata)
 
-        self.recordData.addData(self.logdata)
+        print(self.logFlag)
         self.master.after(100, self.log)
+    
+    def keyEvent(self, e):
+        key = e.keysym
+        if key == "d":
+            self.logFlag = True
+
+        if key == "e":
+            self.logFlag = False
+            self.recordData.closeFile()
+    
 
     def exitApp(self):
         self.master.destroy()
@@ -161,6 +176,7 @@ class Application(tk.Frame):
 def main():
     root=tk.Tk()
     app=Application(master = root)
+    root.bind("<KeyPress>", app.keyEvent)
     app.mainloop()
 
 if __name__=="__main__":
